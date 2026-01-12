@@ -787,7 +787,7 @@
             {
                 id: 'ulnar',
                 name: '乌尔纳 (Ulnar)',
-                x: 650, y: 100,
+                x: 580, y: 10,
                 faction: 'Xel\'Naga',
                 color: '#00ff00',
                 status: '休眠 / 虚空裂隙',
@@ -1037,7 +1037,7 @@
             {
                 id: 'revanscar',
                 name: '雷文斯卡 (Revanscar)',
-                x: 220, y: 80,
+                x: 220, y: 30,
                 faction: 'Moebius Corps',
                 color: '#222222',
                 status: '最后防线',
@@ -1361,20 +1361,108 @@
             ctx.scale(camera.zoom, camera.zoom);
             ctx.translate(-camera.x, -camera.y);
 
-            // 航路连接线改为淡青色
-            ctx.strokeStyle = 'rgba(0, 238, 255, 0.15)';
-            ctx.beginPath();
+            // --- 绘制动态航路连接 (Optimized Starlanes) ---
+            ctx.lineWidth = 1;
 
-            ctx.moveTo(400, 400); ctx.lineTo(480, 460);
-            ctx.moveTo(400, 400); ctx.lineTo(250, 350);
-            ctx.moveTo(400, 400); ctx.lineTo(100, 200);
-            ctx.moveTo(300, 550); ctx.lineTo(150, 500);
-            ctx.moveTo(420, 620); ctx.lineTo(750, 700);
-            ctx.moveTo(800, 250); ctx.lineTo(860, 200);
-            ctx.moveTo(800, 250); ctx.lineTo(900, 300);
-            ctx.moveTo(750, 700); ctx.lineTo(900, 800);
-            ctx.moveTo(750, 700); ctx.lineTo(850, 600);
-            ctx.stroke();
+            // 定义不同类型的航路
+            const routeGroups = [
+                {
+                    type: 'trade', // 贸易主航道：实线，稍亮
+                    style: 'rgba(0, 238, 255, 0.15)',
+                    dash: [],
+                    paths: [
+                        // --- 帝国核心三角 ---
+                        ['korhal', 'dylar'],      // 首都 -> 船坞
+                        ['korhal', 'tyrador'],    // 首都 -> 经济中心
+                        ['korhal', 'antiga'],     // 首都 -> 前线
+                        ['dylar', 'tyrador'],     // 工业 -> 商业 (内环)
+
+                        // --- 凯莫瑞安工业区 ---
+                        ['moria', 'redstone'],    // 联合体内部
+                        ['moria', 'tarsonis'],    // 资源回收线
+                        ['tarsonis', 'marsara'],  // 旧联邦航路
+
+                        // --- 星灵核心圈 ---
+                        ['aiur', 'shakuras'],     // 现在的双子星
+                        ['aiur', 'haven'],        // 保护区航线
+                        ['shakuras', 'endion'],   // 军事防线
+                    ]
+                },
+                {
+                    type: 'covert', // 隐秘/走私航线：虚线，暗淡
+                    style: 'rgba(255, 255, 255, 0.08)',
+                    dash: [5, 5], // 虚线效果
+                    paths: [
+                        // --- 雷诺/米拉汉的地下网络 (左下) ---
+                        ['marsara', 'deadman'],   // 销赃路线
+                        ['deadman', 'newfolsom'], // 监狱补给
+                        ['deadman', 'shiloh'],    // 边缘世界互联
+                        ['shiloh', 'agria'],      // 难民走廊
+                        ['agria', 'meinhoff'],    // 难民走廊 II
+
+                        // --- 帝国机密区 (左上) ---
+                        // 形成一个独立的闭环，不直接连向克哈，体现隐秘性
+                        ['braxis', 'borea'],      // 极寒防线
+                        ['braxis', 'castanar'],   // 实验设施互联
+                        ['castanar', 'avernus'],  // 幽灵计划内网
+
+                        // --- 诺娃行动区 (极左) ---
+                        ['vardona', 'jarban'],    // 保卫者叛军路线
+                        ['jarban', 'veridia'],    // 资源掠夺线
+
+                        // --- 莫比斯/混合体禁区 (极左上深空) ---
+                        ['atrias', 'skygeirr'],   // 混合体实验室互联
+                        ['skygeirr', 'revanscar'],// 最终防线
+                        ['xil', 'typhon'],        // 考古挖掘线
+                    ]
+                },
+                {
+                    type: 'invasion', // 异虫/入侵路线：微红/紫色，稀疏
+                    style: 'rgba(170, 0, 255, 0.1)',
+                    dash: [10, 10],
+                    paths: [
+                        // --- 查尔辐射区 ---
+                        ['char', 'marsara'],      // 经典的入侵
+                        ['char', 'phaeton'],      // 进化场 A
+                        ['char', 'cavir'],        // 进化场 B
+                        ['char', 'kaldir'],       // 远征
+
+                        // --- 原始异虫深空 ---
+                        ['zerus', 'kaldir'],      // 极其遥远的古老连接
+                    ]
+                },
+                {
+                    type: 'mystic', // 星灵考古/虚空：幽能青色
+                    style: 'rgba(0, 255, 100, 0.1)',
+                    dash: [],
+                    paths: [
+                        // --- 远东深空 (右上) ---
+                        ['ulaan', 'zhakul'],      // 预言之路
+                        ['zhakul', 'glacius'],    // 禁忌科技
+                        ['ulnar', 'atrias'],      // 唯一的长距离虚空连接 (因为是裂隙)
+                    ]
+                }
+            ];
+
+            // 渲染逻辑
+            routeGroups.forEach(group => {
+                ctx.strokeStyle = group.style;
+                ctx.setLineDash(group.dash); // 设置虚线
+                ctx.beginPath();
+
+                group.paths.forEach(pair => {
+                    const p1 = planets.find(p => p.id === pair[0]);
+                    const p2 = planets.find(p => p.id === pair[1]);
+
+                    if (p1 && p2) {
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                    }
+                });
+                ctx.stroke();
+            });
+
+            ctx.setLineDash([]); // 重置虚线，以免影响其他绘制
 
             // 渲染行星
             planets.forEach(p => {
