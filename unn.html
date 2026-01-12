@@ -97,7 +97,6 @@
             grid-template-rows: 70px 1fr 50px;
             pointer-events: none;
             z-index: 100;
-            padding: 10px;
             box-sizing: border-box;
         }
 
@@ -146,7 +145,6 @@
             background: linear-gradient(90deg, rgba(5, 8, 12, 0.9) 0%, rgba(20, 30, 45, 0.8) 50%, rgba(5, 8, 12, 0.9) 100%);
             border-bottom: 2px solid var(--sc-border-highlight);
             clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 20px) 100%, 20px 100%, 0 70%);
-            margin-bottom: 10px;
         }
 
         h1 {
@@ -177,12 +175,14 @@
             display: flex;
             flex-direction: column;
             padding: 2px;
+            margin-left: 10px;
             margin-right: 10px;
+            margin-top: 10px;
             transform: translateX(0);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             /* 关键！锁死Grid内的容器高度，防止内容溢出 */
             overflow: hidden;
-            height: 100%;
+            height: calc(100% - 10px);
         }
 
         .left-panel.hidden {
@@ -285,8 +285,11 @@
             display: flex;
             flex-direction: column;
             margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 10px;
             transform: translateX(0);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            height: calc(100% - 10px);
         }
 
         .right-panel.hidden {
@@ -415,7 +418,6 @@
             color: var(--sc-text-dim);
             justify-content: space-between;
             font-family: 'Orbitron', sans-serif;
-            margin-top: 10px;
             clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 100%, 0 100%);
         }
 
@@ -628,7 +630,7 @@
                 color: '#884488',
                 status: '完全感染',
                 desc: '旧联邦首都的墓碑。曾是繁华的超级都市，因蒙斯克投放灵能发射器引来异虫而毁灭，现已成为长满菌毯和虫巢的巨大废墟；这里见证了联邦的覆灭，也是凯瑞甘被遗弃并转化为刀锋女王的悲剧之地。',
-                size: 10, gravity: '1.00 g', period: '27 hrs', atmo: 'Zerg Spores / N2', pop: 'Unknown (Zerg / Hybrid)'
+                size: 10, gravity: '1.00 g', period: '27 hrs', atmo: 'Zerg Spores / N2', pop: 'Billions (Feral Zerg)'
             },
             {
                 id: 'umoja',
@@ -687,8 +689,18 @@
                 faction: 'Contested (Dominion)',
                 color: '#ff8844',
                 status: '资源开采中',
-                desc: '边境荒地与反抗军的摇篮。吉姆·雷诺的故乡，曾被异虫感染后遭星灵净化玻璃化，如今已重新地球化；这里不仅是萨尔那加神器的挖掘地，也是整个大战争序幕拉开的地方。',
+                desc: '边境荒地与反抗军的摇篮。吉姆·雷诺曾在此担任治安官，曾被异虫感染后遭星灵净化玻璃化，如今已重新地球化；这里不仅是萨尔那加神器的挖掘地，也是整个大战争序幕拉开的地方。',
                 size: 8, gravity: '0.98 g', period: '24 hrs', atmo: 'N2, O2 (Terraformed)', pop: '80,000 (Colonists)'
+            },
+            {
+                id: 'shiloh',
+                name: '夏伊洛 (Shiloh)',
+                x: 180, y: 580,
+                faction: 'Terran Fringe',
+                color: '#aaaa88',
+                status: '边缘农业',
+                desc: '吉姆·雷诺的出生地与真正的故乡。一个宁静但贫瘠的农业世界，远离核心世界的喧嚣与政治；这里的人民坚韧不拔，习惯了自给自足的生活，也是雷诺"草根英雄"性格的起源地。',
+                size: 9, gravity: '0.98 g', period: '23 hrs', atmo: 'N2, O2 (Dusty)', pop: 'Low (Farmers)'
             },
             {
                 id: 'antiga',
@@ -708,7 +720,7 @@
                 color: '#ffff00',
                 status: '重建中',
                 desc: '神圣的星灵母星。曾拥有金色的高塔与完美的灵能网络，一度沦陷于异虫主宰之手并布满菌毯；虽然达拉姆星灵最终收复了家园，但清理地下庞大的虫群仍需数百年。',
-                size: 14, gravity: '1.05 g', period: '20 hrs', atmo: 'N2, O2 (Rich)', pop: '3.5 Billion (Protoss / Zerg)'
+                size: 15, gravity: '1.05 g', period: '20 hrs', atmo: 'N2, O2 (Rich)', pop: '3.5 Billion (Protoss / Zerg)'
             },
             {
                 id: 'shakuras',
@@ -777,8 +789,8 @@
                 faction: 'Zerg Swarm',
                 color: '#aa00ff',
                 status: '主巢',
-                desc: '异虫大本营。充满火山灰、岩浆河与酸性大气的地狱，地底布满无穷无尽的虫道；这里是刀锋女王的王座所在地，数次星际大战的核心战场，也是科普卢星区最危险的坐标。',
-                size: 13, gravity: '0.91 g', period: '52 hrs', atmo: 'Ash / Acid', pop: '>10 Billion (Zerg)'
+                desc: '异虫大本营。充满火山灰、岩浆河与酸性大气的地狱，地底布满无穷无尽的虫道；这里是刀锋女王的王座所在地，数次星际大战的核心战场，也是科普卢星区最危险的坐标。极高的重力筛选出了最强壮的虫群基因。',
+                size: 13, gravity: 'High (1.35 g)', period: '52 hrs', atmo: 'Ash / Acid', pop: '>10 Billion (Zerg)'
             },
             {
                 id: 'zerus',
@@ -835,6 +847,30 @@
             },
             {
                 id: 'revanscar', name: '雷文斯卡 (Revanscar)', x: 680, y: 150, faction: 'Moebius Corps', color: '#222222', status: '最后防线', desc: '莫比斯军团的最后据点。阿塔尼斯与凯瑞甘曾联手攻击此地，摧毁了为埃蒙生产混合体的设施，终结了莫比斯军团的疯狂。', size: 8, gravity: '1.00 g', period: '24 hrs', atmo: 'Industrial / Dark', pop: 'Hostile'
+            },
+            {
+                id: 'borea', name: '波利亚 (Borea)', x: 120, y: 240, faction: 'Dominion / Separatist', color: '#aaddff', status: '极寒边境', desc: '隐秘的冰封世界。这里有帝国废弃的绝密研究设施，诺娃从这里醒来并逃离，也是抵抗野生异虫入侵的第一线。', size: 8, gravity: '1.00 g', period: '22 hrs', atmo: 'Freezing / Snow', pop: 'Classified'
+            },
+            {
+                id: 'tyrador', name: '泰拉多尔 IX (Tyrador IX)', x: 420, y: 280, faction: 'Dominion', color: '#00ddaa', status: '旅游胜地', desc: '著名的度假星球与商业中心。拥有繁华的都市和优美的海滨，但没有任何重型防御工事，因此在异虫入侵时遭受了重创。', size: 10, gravity: '1.00 g', period: '24 hrs', atmo: 'Control / Pleasant', pop: 'High (Tourists)'
+            },
+            {
+                id: 'jarban', name: '加尔班 (Jarban Minor)', x: 650, y: 580, faction: 'Unknown', color: '#448844', status: '野生丛林', desc: '被遗忘的殖民地。地表覆盖着茂密的丛林和沼泽，是野生异虫滋生的温床，诺娃在此执行了危险的灵能信标摧毁任务。', size: 9, gravity: '1.10 g', period: '26 hrs', atmo: 'Humid / Spores', pop: 'Feral'
+            },
+            {
+                id: 'veridia', name: '维利迪亚主星 (Veridia Prime)', x: 340, y: 650, faction: 'Kel-Morian', color: '#ff6600', status: '岩浆开采', desc: '地质极不稳定的矿业星球。地表大部分被熔岩覆盖，托什曾协助诺娃在此抢夺高能瓦斯资源，由于环境恶劣，必须不断移动基地以防被岩浆吞没。', size: 11, gravity: '0.95 g', period: '18 hrs', atmo: 'Volcanic Ash', pop: 'Miners'
+            },
+            {
+                id: 'vardona', name: '瓦多纳 (Vardona)', x: 380, y: 380, faction: 'Defenders of Man', color: '#aaaaaa', status: '叛军总部', desc: '繁荣的都市星球，戴维斯将军的大本营。表面上是帝国的模范城市，实则是“人类保卫者”策划叛乱的核心，也是巨型机甲“科桑索斯” (Xanthos) 的决战之地。', size: 12, gravity: '1.00 g', period: '24 hrs', atmo: 'Urban / Smog', pop: 'Billions'
+            },
+            {
+                id: 'ulaan', name: '乌兰 (Ulaan)', x: 680, y: 320, faction: 'Xel\'Naga', color: '#aa88ff', status: '预言圣地', desc: '破碎的深渊。萨尔那加的预言圣地，地表布满巨大的裂隙和古老的石刻壁画。泽拉图在此遭遇了凯瑞甘，并发现了关于“大吞噬者”的预言碎片。', size: 10, gravity: '0.85 g', period: 'Unknown', atmo: 'Thin / Mystical', pop: '0 (Guardians)'
+            },
+            {
+                id: 'zhakul', name: '扎库尔 (Zhakul)', x: 720, y: 380, faction: 'Protoss (Dark)', color: '#4444aa', status: '禁忌档案馆', desc: '永夜的知识库。为了解读乌兰的预言，泽拉图来到这里寻找不朽的“保存者”。这里曾被混合体马尔（Maar）占领并囚禁了守护者，是泽拉图揭开谜底的关键一站。', size: 9, gravity: '1.00 g', period: 'N/A (Dark)', atmo: 'Artificial', pop: 'Preservers'
+            },
+            {
+                id: 'atrias', name: '阿特里亚斯 (Atrias)', x: 200, y: 150, faction: 'Moebius / Hybrid', color: '#ff0000', status: '邪神苏醒', desc: '湮灭的序曲。位于西格玛象限的边缘世界，莫比斯军团在此利用地嗪复活埃蒙的宿主。泽拉图在此发现了埃蒙复活的真相，并获得了萨尔那加神庙（乌尔纳）的坐标。', size: 11, gravity: '1.10 g', period: '26 hrs', atmo: 'Terrazine Fog', pop: 'Hostile'
             }
         ];
 
