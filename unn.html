@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,21 +12,22 @@
 
         :root {
             /* 泰伦 UI 配色方案 */
-            --sc-bg-dark: #05080c;       
-            --sc-panel-bg: rgba(12, 20, 31, 0.90); 
-            --sc-border: #2a3d52;        
-            --sc-border-highlight: #4a6d8c; 
-            
-            --sc-text-main: #aaccff;     
-            --sc-text-dim: #557799;      
-            --sc-accent-blue: #00eeff;   
-            --sc-accent-gold: #ffcc00;   
-            --sc-accent-red: #ff3333;    
-            
+            --sc-bg-dark: #05080c;
+            --sc-panel-bg: rgba(12, 20, 31, 0.90);
+            --sc-border: #2a3d52;
+            --sc-border-highlight: #4a6d8c;
+
+            --sc-text-main: #aaccff;
+            --sc-text-dim: #557799;
+            --sc-accent-blue: #00eeff;
+            --sc-accent-gold: #ffcc00;
+            --sc-accent-red: #ff3333;
+
             --scanline-color: rgba(0, 20, 40, 0.3);
         }
 
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             width: 100%;
@@ -33,17 +35,21 @@
             background-color: #000;
             overflow: hidden;
             /* 全局默认使用终端字体，避免出现“正常”文字 */
-            font-family: 'Share Tech Mono', monospace; 
+            font-family: 'Share Tech Mono', monospace;
             color: var(--sc-text-main);
             user-select: none;
-            font-size: 16px; /* 基础字号稍微调大 */
+            font-size: 16px;
+            /* 基础字号稍微调大 */
         }
 
         /* --- 背景纹理与特效 --- */
         .grid-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
                 linear-gradient(rgba(18, 50, 80, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(18, 50, 80, 0.1) 1px, transparent 1px);
             background-size: 40px 40px;
@@ -53,22 +59,26 @@
 
         .vignette {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.8) 100%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
             pointer-events: none;
             z-index: 90;
         }
 
         .scanlines {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(
-                to bottom,
-                rgba(255,255,255,0),
-                rgba(255,255,255,0) 50%,
-                var(--scanline-color) 50%,
-                var(--scanline-color)
-            );
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0) 50%,
+                    var(--scanline-color) 50%,
+                    var(--scanline-color));
             background-size: 100% 3px;
             pointer-events: none;
             z-index: 91;
@@ -78,7 +88,10 @@
         /* --- 布局容器 --- */
         #ui-layer {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: grid;
             grid-template-columns: 380px 1fr 380px;
             grid-template-rows: 70px 1fr 50px;
@@ -88,30 +101,33 @@
             box-sizing: border-box;
         }
 
-        .pointer-active { pointer-events: auto; }
+        .pointer-active {
+            pointer-events: auto;
+        }
 
         /* --- 通用泰伦面板样式 --- */
         .terran-panel {
             background: var(--sc-panel-bg);
             border: 1px solid var(--sc-border);
-            box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 20px rgba(0, 20, 40, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 20, 40, 0.5);
             position: relative;
             /* 切角效果 */
-            clip-path: polygon(
-                0 10px, 10px 0, 
-                100% 0, 100% calc(100% - 10px), 
-                calc(100% - 10px) 100%, 0 100%
-            );
+            clip-path: polygon(0 10px, 10px 0,
+                    100% 0, 100% calc(100% - 10px),
+                    calc(100% - 10px) 100%, 0 100%);
             backdrop-filter: blur(5px);
         }
 
         .terran-panel::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             border: 1px solid transparent;
             /* 角落高亮装饰 */
-            background: 
+            background:
                 linear-gradient(135deg, var(--sc-border-highlight) 5px, transparent 5px) top left,
                 linear-gradient(-135deg, var(--sc-border-highlight) 5px, transparent 5px) bottom right;
             background-size: 15px 15px;
@@ -127,14 +143,15 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 30px;
-            background: linear-gradient(90deg, rgba(5,8,12,0.9) 0%, rgba(20,30,45,0.8) 50%, rgba(5,8,12,0.9) 100%);
+            background: linear-gradient(90deg, rgba(5, 8, 12, 0.9) 0%, rgba(20, 30, 45, 0.8) 50%, rgba(5, 8, 12, 0.9) 100%);
             border-bottom: 2px solid var(--sc-border-highlight);
             clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 20px) 100%, 20px 100%, 0 70%);
             margin-bottom: 10px;
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif; /* 标题保持 Orbitron */
+            font-family: 'Orbitron', sans-serif;
+            /* 标题保持 Orbitron */
             font-size: 26px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -165,7 +182,9 @@
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .left-panel.hidden { transform: translateX(-110%); }
+        .left-panel.hidden {
+            transform: translateX(-110%);
+        }
 
         .panel-content-inner {
             padding: 15px;
@@ -187,7 +206,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .panel-header::after {
             content: '///';
             font-size: 12px;
@@ -202,16 +221,25 @@
             scrollbar-color: var(--sc-border-highlight) var(--sc-bg-dark);
             padding-right: 5px;
         }
-        
-        .planet-list::-webkit-scrollbar { width: 6px; }
-        .planet-list::-webkit-scrollbar-track { background: var(--sc-bg-dark); }
-        .planet-list::-webkit-scrollbar-thumb { background: var(--sc-border-highlight); border-radius: 2px; }
+
+        .planet-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .planet-list::-webkit-scrollbar-track {
+            background: var(--sc-bg-dark);
+        }
+
+        .planet-list::-webkit-scrollbar-thumb {
+            background: var(--sc-border-highlight);
+            border-radius: 2px;
+        }
 
         .list-item {
             padding: 10px 15px;
             margin-bottom: 6px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-left: 3px solid transparent;
             cursor: pointer;
             transition: all 0.2s;
@@ -239,7 +267,7 @@
             color: #fff;
             text-shadow: 0 0 5px var(--sc-accent-gold);
         }
-        
+
         .list-item.star-item {
             color: var(--sc-accent-gold);
             border-bottom: 1px dashed var(--sc-accent-gold);
@@ -256,7 +284,9 @@
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .right-panel.hidden { transform: translateX(110%); }
+        .right-panel.hidden {
+            transform: translateX(110%);
+        }
 
         .wireframe-container {
             width: 100%;
@@ -264,28 +294,50 @@
             border: 1px solid var(--sc-border-highlight);
             margin-bottom: 20px;
             position: relative;
-            background: radial-gradient(circle, rgba(0,100,255,0.1) 0%, rgba(0,0,0,0.5) 80%);
+            background: radial-gradient(circle, rgba(0, 100, 255, 0.1) 0%, rgba(0, 0, 0, 0.5) 80%);
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
         }
-        
+
         .reticle {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%; height: 80%;
-            border: 1px solid rgba(255,255,255,0.1);
+            width: 80%;
+            height: 80%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             pointer-events: none;
         }
-        .reticle::before, .reticle::after {
-            content: ''; position: absolute; background: var(--sc-accent-blue); opacity: 0.5;
-        }
-        .reticle::before { top: 50%; left: 0; width: 100%; height: 1px; }
-        .reticle::after { left: 50%; top: 0; height: 100%; width: 1px; }
 
-        #wireframe-canvas { width: 100%; height: 100%; }
+        .reticle::before,
+        .reticle::after {
+            content: '';
+            position: absolute;
+            background: var(--sc-accent-blue);
+            opacity: 0.5;
+        }
+
+        .reticle::before {
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+        }
+
+        .reticle::after {
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 1px;
+        }
+
+        #wireframe-canvas {
+            width: 100%;
+            height: 100%;
+        }
 
         .data-grid {
             display: grid;
@@ -295,7 +347,7 @@
         }
 
         .data-block {
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.3);
             padding: 8px;
             border-left: 2px solid var(--sc-border);
         }
@@ -306,30 +358,33 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 2px;
-            font-family: 'Share Tech Mono', monospace; /* 标签使用 Mono */
+            font-family: 'Share Tech Mono', monospace;
+            /* 标签使用 Mono */
         }
 
         .data-value {
             color: var(--sc-text-main);
             font-size: 16px;
-            font-family: 'Orbitron', sans-serif; /* 数值保持 Orbitron 以突出 */
+            font-family: 'Orbitron', sans-serif;
+            /* 数值保持 Orbitron 以突出 */
             text-shadow: 0 0 2px var(--sc-accent-blue);
         }
-        
+
         .faction-tag {
             display: inline-block;
             padding: 3px 8px;
             font-size: 12px;
             border: 1px solid;
             margin-top: 4px;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
             text-transform: uppercase;
             font-weight: bold;
             font-family: 'Share Tech Mono', monospace;
         }
 
         .desc-box {
-            font-size: 14px; /* 稍微加大 */
+            font-size: 14px;
+            /* 稍微加大 */
             line-height: 1.5;
             color: #ccc;
             margin-top: 15px;
@@ -337,9 +392,9 @@
             overflow-y: auto;
             border-top: 1px solid var(--sc-border);
             padding-top: 10px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, transparent 100%);
             /* 关键：确保描述文字也是科技字体 */
-            font-family: 'Share Tech Mono', monospace; 
+            font-family: 'Share Tech Mono', monospace;
         }
 
         /* --- 底部状态栏 --- */
@@ -363,7 +418,7 @@
             color: var(--sc-accent-blue);
             animation: blink 1s step-end infinite;
         }
-        
+
         .hint-overlay {
             position: absolute;
             bottom: 80px;
@@ -382,25 +437,57 @@
             border: 1px solid var(--sc-accent-blue);
             border-radius: 20px;
         }
-        .hint-overlay.visible { opacity: 1; }
 
-        @keyframes blink { 50% { opacity: 0; } }
+        .hint-overlay.visible {
+            opacity: 1;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
 
         #starmap {
             position: absolute;
-            top: 0; left: 0; z-index: 1;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
-        
-        /* 阵营颜色覆盖 */
-        .color-dominion { color: #ff5555 !important; border-color: #ff5555 !important; }
-        .color-zerg { color: #cc55ff !important; border-color: #cc55ff !important; }
-        .color-protoss { color: #ffff55 !important; border-color: #ffff55 !important; }
-        .color-kelmorian { color: #ffaa00 !important; border-color: #ffaa00 !important; }
-        .color-umojan { color: #00ffff !important; border-color: #00ffff !important; }
-        .color-neutral { color: #cccccc !important; border-color: #cccccc !important; }
 
+        /* 阵营颜色覆盖 */
+        .color-dominion {
+            color: #ff5555 !important;
+            border-color: #ff5555 !important;
+        }
+
+        .color-zerg {
+            color: #cc55ff !important;
+            border-color: #cc55ff !important;
+        }
+
+        .color-protoss {
+            color: #ffff55 !important;
+            border-color: #ffff55 !important;
+        }
+
+        .color-kelmorian {
+            color: #ffaa00 !important;
+            border-color: #ffaa00 !important;
+        }
+
+        .color-umojan {
+            color: #00ffff !important;
+            border-color: #00ffff !important;
+        }
+
+        .color-neutral {
+            color: #cccccc !important;
+            border-color: #cccccc !important;
+        }
     </style>
 </head>
+
 <body>
 
     <div class="grid-overlay"></div>
@@ -409,7 +496,8 @@
 
     <div id="ui-layer">
         <header>
-            <h1><span style="color:var(--sc-accent-gold)">UNN</span> TACTICAL <span style="font-size:12px; color:var(--sc-text-dim); vertical-align:middle">V3.1 CONSISTENCY</span></h1>
+            <h1><span style="color:var(--sc-accent-gold)">UNN</span> TACTICAL <span
+                    style="font-size:12px; color:var(--sc-text-dim); vertical-align:middle">V3.1 CONSISTENCY</span></h1>
             <div class="status-bar">
                 <span><span style="color:var(--sc-text-dim)">SYSTEM:</span> ONLINE</span>
                 <span><span style="color:var(--sc-text-dim)">NET:</span> SECURE</span>
@@ -429,11 +517,13 @@
         <div class="right-panel terran-panel pointer-active" id="right-panel">
             <div class="panel-content-inner">
                 <div class="panel-header">Planetary Analysis</div>
-                
+
                 <div class="wireframe-container">
                     <div class="reticle"></div>
                     <canvas id="wireframe-canvas"></canvas>
-                    <div style="position:absolute; bottom:5px; right:5px; font-size:9px; color:var(--sc-accent-blue); font-family:'Orbitron'">SCANNING...</div>
+                    <div
+                        style="position:absolute; bottom:5px; right:5px; font-size:9px; color:var(--sc-accent-blue); font-family:'Orbitron'">
+                        SCANNING...</div>
                 </div>
 
                 <div id="planet-details">
@@ -442,7 +532,7 @@
                         <div class="data-value" id="detail-name" style="font-size:18px">SCANNING...</div>
                         <div class="data-value" id="detail-faction" style="margin-top:5px; font-size:12px">-</div>
                     </div>
-                    
+
                     <div class="data-grid">
                         <div class="data-block">
                             <div class="data-label">Status</div>
@@ -450,7 +540,8 @@
                         </div>
                         <div class="data-block">
                             <div class="data-label">Population</div>
-                            <div class="data-value" id="detail-population" style="color:var(--sc-accent-gold); font-size:12px">-</div>
+                            <div class="data-value" id="detail-population"
+                                style="color:var(--sc-accent-gold); font-size:12px">-</div>
                         </div>
                         <div class="data-block">
                             <div class="data-label">Gravity</div>
@@ -461,7 +552,7 @@
                             <div class="data-value" id="detail-period">-</div>
                         </div>
                     </div>
-                    
+
                     <div class="data-block">
                         <div class="data-label">Atmosphere</div>
                         <div class="data-value" id="detail-atmo" style="font-size:12px">-</div>
@@ -473,7 +564,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="hint-overlay" id="hint-text">SELECT TARGET // DBL-CLICK TO ENGAGE</div>
 
         <footer>
@@ -484,277 +575,400 @@
 
     <canvas id="starmap"></canvas>
 
-<script>
-    /**
-     * 行星数据 V2.3 (Preserved)
-     */
-    const planets = [
-    { 
-        id: 'korhal', 
-        name: '克哈 IV (Korhal IV)', 
-        x: 400, y: 400, 
-        faction: 'Terran Dominion', 
-        color: '#ff4444', 
-        status: '首都 / 高度活跃', 
-        desc: '帝国首都与权力核心。曾被旧联邦核弹彻底毁灭变为辐射废土，现已重建为覆盖整个地表的巨大钢铁都市，充斥着霓虹灯、全息广告与高耸的帝国宣传塔，是阿克图尔斯·蒙斯克及其皇权象征的所在地。', 
-        size: 12, gravity: '1.00 g', period: '24 hrs', atmo: 'N2, O2 (Filtered)', pop: '6.5 Billion (Terran)' 
-    },
-    { 
-        id: 'dylar', 
-        name: '迪拉 IV (Dylar IV)', 
-        x: 450, y: 300, 
-        faction: 'Terran Dominion', 
-        color: '#ff6666', 
-        status: '核心船坞', 
-        desc: '帝国舰队的主要生产基地与工业枢纽。其轨道上密布着巨大的船坞设施，是星区大多数战列巡洋舰的摇篮；雷诺游骑兵曾大胆潜入此地，偷走了传奇旗舰“休伯利安号”。', 
-        size: 9, gravity: '0.95 g', period: '26 hrs', atmo: 'Industrial Smog', pop: '900 Million (Terran)' 
-    },
-    { 
-        id: 'newfolsom', 
-        name: '新福尔松 (New Folsom)', 
-        x: 380, y: 320, 
-        faction: 'Terran Dominion', 
-        color: '#cc3333', 
-        status: '监狱行星', 
-        desc: '熔岩炼狱般的超级监狱。地表流淌着不稳定的岩浆，专门关押被帝国视为“精神不稳定”的幽魂特工与重刑犯，只有进没有出，直到雷诺与托什策划了一场惊天劫狱释放了囚犯。', 
-        size: 7, gravity: '1.10 g', period: '18 hrs', atmo: 'Sulfur / Ash', pop: '450,000 (Inmates)' 
-    },
-    { 
-        id: 'tarsonis', 
-        name: '塔桑尼斯 (Tarsonis)', 
-        x: 480, y: 460, 
-        faction: 'Feral Zerg', 
-        color: '#884488', 
-        status: '完全感染', 
-        desc: '旧联邦首都的墓碑。曾是繁华的超级都市，因蒙斯克投放灵能发射器引来异虫而毁灭，现已成为长满菌毯和虫巢的巨大废墟；这里见证了联邦的覆灭，也是凯瑞甘被遗弃并转化为刀锋女王的悲剧之地。', 
-        size: 10, gravity: '1.00 g', period: '27 hrs', atmo: 'Zerg Spores / N2', pop: 'Unknown (Zerg / Hybrid)' 
-    },
-    { 
-        id: 'umoja', 
-        name: '尤摩杨 (Umoja)', 
-        x: 250, y: 350, 
-        faction: 'Umojan Protectorate', 
-        color: '#00ffff', 
-        status: '独立 / 中立', 
-        desc: '护国军首都与科技乌托邦。星区中最干净、体面的人类星球，以优雅的白色流线型建筑闻名；这里将尖端科技与生态完美结合，远离帝国暴政，是理性与进步的象征。', 
-        size: 10, gravity: '1.00 g', period: '24.5 hrs', atmo: 'N2, O2 (Pristine)', pop: '2.1 Billion (Terran)' 
-    },
-    { 
-        id: 'moria', 
-        name: '莫里亚 (Moria)', 
-        x: 300, y: 550, 
-        faction: 'Kel-Morian', 
-        color: '#ffaa00', 
-        status: '工业枢纽', 
-        desc: '凯莫瑞安联合体总部。巨大的露天矿坑与重工业设施覆盖地表，空气污浊充满酸雨，是一个唯利是图、装备比人命更值钱的贪婪世界。', 
-        size: 11, gravity: '1.02 g', period: '23 hrs', atmo: 'Heavy Pollutants', pop: '4.8 Billion (Terran)' 
-    },
-    { 
-        id: 'redstone', 
-        name: '红石星 (Redstone III)', 
-        x: 330, y: 600, 
-        faction: 'Kel-Morian', 
-        color: '#cc8800', 
-        status: '极不稳定', 
-        desc: '地质极不稳定的火山行星，盛产高能晶体矿。熔岩潮汐会定期淹没低地，矿工必须像赌徒一样在岩浆涨落的间隙拼命开采，稍有不慎便尸骨无存。', 
-        size: 7, gravity: '0.88 g', period: '16 hrs', atmo: 'Volcanic Gases', pop: '35,000 (Contractors)' 
-    },
-    { 
-        id: 'deadman', 
-        name: '亡者之港 (Deadman\'s Port)', 
-        x: 150, y: 500, 
-        faction: 'Mercenaries', 
-        color: '#cccccc', 
-        status: '黑市活跃', 
-        desc: '建立在废弃空间平台与小行星上的法外之地。这里是亡命徒、雇佣兵与黑市商人的天堂，由米拉·汉统治，全星区最大的销赃窝点，雷诺游骑兵甚至在此遭遇过“强制婚姻”。', 
-        size: 5, gravity: 'Artificial', period: 'N/A', atmo: 'Life Support', pop: '1.2 Million (Mixed)' 
-    },
-    { 
-        id: 'braxis', 
-        name: '布拉克西斯 (Braxis)', 
-        x: 100, y: 200, 
-        faction: 'Terran Dominion', 
-        color: '#ff6666', 
-        status: '军事重镇', 
-        desc: '被冰雪覆盖的严寒要塞，前身为星灵殖民地“凯塔”。后被泰伦帝国改造成进行秘密实验的军事重镇，地球联合理事会（UED）曾将其作为入侵星区的关键突破口。', 
-        size: 8, gravity: '1.15 g', period: '29 hrs', atmo: 'N2, O2 (Cold)', pop: '25,000 (Military)' 
-    },
-    { 
-        id: 'marsara', 
-        name: '玛萨拉 (Mar Sara)', 
-        x: 420, y: 620, 
-        faction: 'Contested (Dominion)', 
-        color: '#ff8844', 
-        status: '资源开采中', 
-        desc: '边境荒地与反抗军的摇篮。吉姆·雷诺的故乡，曾被异虫感染后遭星灵净化玻璃化，如今已重新地球化；这里不仅是萨尔那加神器的挖掘地，也是整个大战争序幕拉开的地方。', 
-        size: 8, gravity: '0.98 g', period: '24 hrs', atmo: 'N2, O2 (Terraformed)', pop: '80,000 (Colonists)' 
-    },
-    { 
-        id: 'antiga', 
-        name: '安提加主星 (Antiga Prime)', 
-        x: 520, y: 520, 
-        faction: 'Destroyed', 
-        color: '#555555', 
-        status: '已毁灭', 
-        desc: '已彻底毁灭的死寂世界。曾是反抗联邦的起义地，凯瑞甘在此安放灵能发射器引发异虫屠杀，最终迫使星灵舰队将其“玻璃化”，是人类内战残酷性的见证。', 
-        size: 6, gravity: '1.00 g', period: '24 hrs', atmo: 'None / Vacuum', pop: '0 (Extinct)' 
-    },
-    { 
-        id: 'aiur', 
-        name: '艾尔 (Aiur)', 
-        x: 800, y: 250, 
-        faction: 'Protoss Daelaam', 
-        color: '#ffff00', 
-        status: '重建中', 
-        desc: '神圣的星灵母星。曾拥有金色的高塔与完美的灵能网络，一度沦陷于异虫主宰之手并布满菌毯；虽然达拉姆星灵最终收复了家园，但清理地下庞大的虫群仍需数百年。', 
-        size: 14, gravity: '1.05 g', period: '20 hrs', atmo: 'N2, O2 (Rich)', pop: '3.5 Billion (Protoss / Zerg)' 
-    },
-    { 
-        id: 'shakuras', 
-        name: '萨古拉斯 (Shakuras)', 
-        x: 860, y: 200, 
-        faction: 'Destroyed', 
-        color: '#666644', 
-        status: '已炸毁', 
-        desc: '已化为尘埃。曾是奈拉齐姆的永夜避难所，依靠星光与水晶阵列照明；为了彻底消灭埃蒙的混元体大军，阿塔尼斯过载了萨尔那加神庙，悲壮地引爆了整颗星球。', 
-        size: 0, debris: true, gravity: '0 g', period: 'N/A', atmo: 'Vacuum', pop: '0 (Evacuated)' 
-    },
-    { 
-        id: 'slayn', 
-        name: '斯雷恩 (Slayn)', 
-        x: 920, y: 120, 
-        faction: 'Abandoned', 
-        color: '#aa0044', 
-        status: '废弃', 
-        desc: '塔达林的旧母星。充满了致幻的地嗪毒气、猛烈的雷暴与无底深渊的黑暗世界；曾是残酷权力决斗“拉克希尔”的举办地，随着死亡舰队的离去，现已被遗弃。', 
-        size: 9, gravity: '0.85 g', period: 'Unknown', atmo: 'Terrazine Vapor', pop: 'Minimal (Tal\'darim)' 
-    },
-    { 
-        id: 'endion', 
-        name: '恩迪昂 (Endion)', 
-        x: 750, y: 180, 
-        faction: 'Protoss Daelaam', 
-        color: '#ffff00', 
-        status: '控制中', 
-        desc: '森林卫星。其轨道上运行着巨大的空间站“赛博罗斯”，封印着古代净化者大军；阿塔尼斯曾在此解除了封印，唤醒了这些拥有机械人格的战士以对抗埃蒙。', 
-        size: 7, gravity: '0.70 g', period: '12 hrs', atmo: 'N2, O2', pop: 'Classified' 
-    },
-    { 
-        id: 'ulnar', 
-        name: '乌尔纳 (Ulnar)', 
-        x: 650, y: 100, 
-        faction: 'Xel\'Naga', 
-        color: '#00ff00', 
-        status: '休眠 / 虚空裂隙', 
-        desc: '萨尔那加的沉睡之地。位于现实与虚空夹缝中的巨型人造天体，这里不遵循物理法则，不仅是揭开创世真相的圣地，也是星灵与异虫被迫结盟的转折点。', 
-        size: 15, special: true, gravity: 'Variable', period: 'None', atmo: 'Sterile', pop: '0 (Dormant)' 
-    },
-    { 
-        id: 'haven', 
-        name: '海文 (Haven)', 
-        x: 600, y: 350, 
-        faction: 'Neutral', 
-        color: '#20f866', 
-        status: '难民安置点', 
-        desc: '风景优美的乐园世界，位于星灵领地边缘。因环境类似地球而成为饱受战火摧残的难民的避难所，曾因异虫病毒爆发险些被星灵舰队“净化”，是一块脆弱的和平之地。', 
-        size: 9, gravity: '0.99 g', period: '24 hrs', atmo: 'N2, O2', pop: '14,000 (Refugees)' 
-    },
-    { 
-        id: 'belsher', 
-        name: '拜舍尔 (Bel\'Shir)', 
-        x: 820, y: 400, 
-        faction: 'Contested', 
-        color: '#aa0044', 
-        status: '地嗪资源点', 
-        desc: '被热带雨林覆盖的潮湿星球。盛产珍贵的“造物主之息”（地嗪），曾是塔达林誓死守护的圣地，也是凯瑞甘为了强化虫群灵能而进行血腥掠夺的猎场。', 
-        size: 8, gravity: '1.01 g', period: '22 hrs', atmo: 'Humid / Terrazine', pop: 'Unknown' 
-    },
-    { 
-        id: 'char', 
-        name: '查尔 (Char)', 
-        x: 750, y: 700, 
-        faction: 'Zerg Swarm', 
-        color: '#aa00ff', 
-        status: '主巢', 
-        desc: '异虫大本营。充满火山灰、岩浆河与酸性大气的地狱，地底布满无穷无尽的虫道；这里是刀锋女王的王座所在地，数次星际大战的核心战场，也是科普卢星区最危险的坐标。', 
-        size: 13, gravity: '0.91 g', period: '52 hrs', atmo: 'Ash / Acid', pop: '>10 Billion (Zerg)' 
-    },
-    { 
-        id: 'zerus', 
-        name: '泽鲁斯 (Zerus)', 
-        x: 900, y: 800, 
-        faction: 'Primal Zerg', 
-        color: '#aa00ff', 
-        status: '原始进化', 
-        desc: '异虫发源地。原始、野性且充满敌意的丛林世界，这里的生物不属于主巢心智，只信奉“适者生存”；凯瑞甘曾在此投入原始分裂池，重生为拥有原始力量的刀锋女王。', 
-        size: 12, gravity: '1.20 g', period: '25 hrs', atmo: 'Oxygen-Rich', pop: 'Uncountable (Primal)' 
-    },
-    { 
-        id: 'kaldir', 
-        name: '卡尔迪尔 (Kaldir)', 
-        x: 850, y: 600, 
-        faction: 'Zerg Swarm', 
-        color: '#aa00ff', 
-        status: '极寒', 
-        desc: '被冰封的极寒世界。拥有能瞬间冻结一切的“闪聚风暴”，凯瑞甘曾率军在此猎杀当地巨兽以获取抗寒基因，并消灭了驻扎于此的星灵远征军以掩盖虫群的行踪。', 
-        size: 8, gravity: '1.05 g', period: '30 hrs', atmo: 'Thin / Nitrogen', pop: 'High (Zerg)' 
-    }
-];
+    <script>
+        /**
+         * 行星数据 V2.3 (Preserved)
+         */
+        const planets = [
+            {
+                id: 'korhal',
+                name: '克哈 IV (Korhal IV)',
+                x: 400, y: 400,
+                faction: 'Terran Dominion',
+                color: '#ff4444',
+                status: '首都 / 高度活跃',
+                desc: '帝国首都与权力核心。曾被旧联邦核弹彻底毁灭变为辐射废土，现已重建为覆盖整个地表的巨大钢铁都市，充斥着霓虹灯、全息广告与高耸的帝国宣传塔，是阿克图尔斯·蒙斯克及其皇权象征的所在地。',
+                size: 12, gravity: '1.00 g', period: '24 hrs', atmo: 'N2, O2 (Filtered)', pop: '6.5 Billion (Terran)'
+            },
+            {
+                id: 'dylar',
+                name: '迪拉 IV (Dylar IV)',
+                x: 450, y: 300,
+                faction: 'Terran Dominion',
+                color: '#ff6666',
+                status: '核心船坞',
+                desc: '帝国舰队的主要生产基地与工业枢纽。其轨道上密布着巨大的船坞设施，是星区大多数战列巡洋舰的摇篮；雷诺游骑兵曾大胆潜入此地，偷走了传奇旗舰“休伯利安号”。',
+                size: 9, gravity: '0.95 g', period: '26 hrs', atmo: 'Industrial Smog', pop: '900 Million (Terran)'
+            },
+            {
+                id: 'newfolsom',
+                name: '新福尔松 (New Folsom)',
+                x: 380, y: 320,
+                faction: 'Terran Dominion',
+                color: '#cc3333',
+                status: '监狱行星',
+                desc: '熔岩炼狱般的超级监狱。地表流淌着不稳定的岩浆，专门关押被帝国视为“精神不稳定”的幽魂特工与重刑犯，只有进没有出，直到雷诺与托什策划了一场惊天劫狱释放了囚犯。',
+                size: 7, gravity: '1.10 g', period: '18 hrs', atmo: 'Sulfur / Ash', pop: '450,000 (Inmates)'
+            },
+            {
+                id: 'tarsonis',
+                name: '塔桑尼斯 (Tarsonis)',
+                x: 480, y: 460,
+                faction: 'Feral Zerg',
+                color: '#884488',
+                status: '完全感染',
+                desc: '旧联邦首都的墓碑。曾是繁华的超级都市，因蒙斯克投放灵能发射器引来异虫而毁灭，现已成为长满菌毯和虫巢的巨大废墟；这里见证了联邦的覆灭，也是凯瑞甘被遗弃并转化为刀锋女王的悲剧之地。',
+                size: 10, gravity: '1.00 g', period: '27 hrs', atmo: 'Zerg Spores / N2', pop: 'Unknown (Zerg / Hybrid)'
+            },
+            {
+                id: 'umoja',
+                name: '尤摩杨 (Umoja)',
+                x: 250, y: 350,
+                faction: 'Umojan Protectorate',
+                color: '#00ffff',
+                status: '独立 / 中立',
+                desc: '护国军首都与科技乌托邦。星区中最干净、体面的人类星球，以优雅的白色流线型建筑闻名；这里将尖端科技与生态完美结合，远离帝国暴政，是理性与进步的象征。',
+                size: 10, gravity: '1.00 g', period: '24.5 hrs', atmo: 'N2, O2 (Pristine)', pop: '2.1 Billion (Terran)'
+            },
+            {
+                id: 'moria',
+                name: '莫里亚 (Moria)',
+                x: 300, y: 550,
+                faction: 'Kel-Morian',
+                color: '#ffaa00',
+                status: '工业枢纽',
+                desc: '凯莫瑞安联合体总部。巨大的露天矿坑与重工业设施覆盖地表，空气污浊充满酸雨，是一个唯利是图、装备比人命更值钱的贪婪世界。',
+                size: 11, gravity: '1.02 g', period: '23 hrs', atmo: 'Heavy Pollutants', pop: '4.8 Billion (Terran)'
+            },
+            {
+                id: 'redstone',
+                name: '红石星 (Redstone III)',
+                x: 330, y: 600,
+                faction: 'Kel-Morian',
+                color: '#cc8800',
+                status: '极不稳定',
+                desc: '地质极不稳定的火山行星，盛产高能晶体矿。熔岩潮汐会定期淹没低地，矿工必须像赌徒一样在岩浆涨落的间隙拼命开采，稍有不慎便尸骨无存。',
+                size: 7, gravity: '0.88 g', period: '16 hrs', atmo: 'Volcanic Gases', pop: '35,000 (Contractors)'
+            },
+            {
+                id: 'deadman',
+                name: '亡者之港 (Deadman\'s Port)',
+                x: 150, y: 500,
+                faction: 'Mercenaries',
+                color: '#cccccc',
+                status: '黑市活跃',
+                desc: '建立在废弃空间平台与小行星上的法外之地。这里是亡命徒、雇佣兵与黑市商人的天堂，由米拉·汉统治，全星区最大的销赃窝点，雷诺游骑兵甚至在此遭遇过“强制婚姻”。',
+                size: 5, gravity: 'Artificial', period: 'N/A', atmo: 'Life Support', pop: '1.2 Million (Mixed)'
+            },
+            {
+                id: 'braxis',
+                name: '布拉克西斯 (Braxis)',
+                x: 100, y: 200,
+                faction: 'Terran Dominion',
+                color: '#ff6666',
+                status: '军事重镇',
+                desc: '被冰雪覆盖的严寒要塞，前身为星灵殖民地“凯塔”。后被泰伦帝国改造成进行秘密实验的军事重镇，地球联合理事会（UED）曾将其作为入侵星区的关键突破口。',
+                size: 8, gravity: '1.15 g', period: '29 hrs', atmo: 'N2, O2 (Cold)', pop: '25,000 (Military)'
+            },
+            {
+                id: 'marsara',
+                name: '玛萨拉 (Mar Sara)',
+                x: 420, y: 620,
+                faction: 'Contested (Dominion)',
+                color: '#ff8844',
+                status: '资源开采中',
+                desc: '边境荒地与反抗军的摇篮。吉姆·雷诺的故乡，曾被异虫感染后遭星灵净化玻璃化，如今已重新地球化；这里不仅是萨尔那加神器的挖掘地，也是整个大战争序幕拉开的地方。',
+                size: 8, gravity: '0.98 g', period: '24 hrs', atmo: 'N2, O2 (Terraformed)', pop: '80,000 (Colonists)'
+            },
+            {
+                id: 'antiga',
+                name: '安提加主星 (Antiga Prime)',
+                x: 520, y: 520,
+                faction: 'Destroyed',
+                color: '#555555',
+                status: '已毁灭',
+                desc: '已彻底毁灭的死寂世界。曾是反抗联邦的起义地，凯瑞甘在此安放灵能发射器引发异虫屠杀，最终迫使星灵舰队将其“玻璃化”，是人类内战残酷性的见证。',
+                size: 6, gravity: '1.00 g', period: '24 hrs', atmo: 'None / Vacuum', pop: '0 (Extinct)'
+            },
+            {
+                id: 'aiur',
+                name: '艾尔 (Aiur)',
+                x: 800, y: 250,
+                faction: 'Protoss Daelaam',
+                color: '#ffff00',
+                status: '重建中',
+                desc: '神圣的星灵母星。曾拥有金色的高塔与完美的灵能网络，一度沦陷于异虫主宰之手并布满菌毯；虽然达拉姆星灵最终收复了家园，但清理地下庞大的虫群仍需数百年。',
+                size: 14, gravity: '1.05 g', period: '20 hrs', atmo: 'N2, O2 (Rich)', pop: '3.5 Billion (Protoss / Zerg)'
+            },
+            {
+                id: 'shakuras',
+                name: '萨古拉斯 (Shakuras)',
+                x: 860, y: 200,
+                faction: 'Destroyed',
+                color: '#666644',
+                status: '已炸毁',
+                desc: '已化为尘埃。曾是奈拉齐姆的永夜避难所，依靠星光与水晶阵列照明；为了彻底消灭埃蒙的混元体大军，阿塔尼斯过载了萨尔那加神庙，悲壮地引爆了整颗星球。',
+                size: 0, debris: true, gravity: '0 g', period: 'N/A', atmo: 'Vacuum', pop: '0 (Evacuated)'
+            },
+            {
+                id: 'slayn',
+                name: '斯雷恩 (Slayn)',
+                x: 920, y: 120,
+                faction: 'Abandoned',
+                color: '#aa0044',
+                status: '废弃',
+                desc: '塔达林的旧母星。充满了致幻的地嗪毒气、猛烈的雷暴与无底深渊的黑暗世界；曾是残酷权力决斗“拉克希尔”的举办地，随着死亡舰队的离去，现已被遗弃。',
+                size: 9, gravity: '0.85 g', period: 'Unknown', atmo: 'Terrazine Vapor', pop: 'Minimal (Tal\'darim)'
+            },
+            {
+                id: 'endion',
+                name: '恩迪昂 (Endion)',
+                x: 750, y: 180,
+                faction: 'Protoss Daelaam',
+                color: '#ffff00',
+                status: '控制中',
+                desc: '森林卫星。其轨道上运行着巨大的空间站“赛博罗斯”，封印着古代净化者大军；阿塔尼斯曾在此解除了封印，唤醒了这些拥有机械人格的战士以对抗埃蒙。',
+                size: 7, gravity: '0.70 g', period: '12 hrs', atmo: 'N2, O2', pop: 'Classified'
+            },
+            {
+                id: 'ulnar',
+                name: '乌尔纳 (Ulnar)',
+                x: 650, y: 100,
+                faction: 'Xel\'Naga',
+                color: '#00ff00',
+                status: '休眠 / 虚空裂隙',
+                desc: '萨尔那加的沉睡之地。位于现实与虚空夹缝中的巨型人造天体，这里不遵循物理法则，不仅是揭开创世真相的圣地，也是星灵与异虫被迫结盟的转折点。',
+                size: 15, special: true, gravity: 'Variable', period: 'None', atmo: 'Sterile', pop: '0 (Dormant)'
+            },
+            {
+                id: 'haven',
+                name: '海文 (Haven)',
+                x: 600, y: 350,
+                faction: 'Neutral',
+                color: '#20f866',
+                status: '难民安置点',
+                desc: '风景优美的乐园世界，位于星灵领地边缘。因环境类似地球而成为饱受战火摧残的难民的避难所，曾因异虫病毒爆发险些被星灵舰队“净化”，是一块脆弱的和平之地。',
+                size: 9, gravity: '0.99 g', period: '24 hrs', atmo: 'N2, O2', pop: '14,000 (Refugees)'
+            },
+            {
+                id: 'belsher',
+                name: '拜舍尔 (Bel\'Shir)',
+                x: 820, y: 400,
+                faction: 'Contested',
+                color: '#aa0044',
+                status: '地嗪资源点',
+                desc: '被热带雨林覆盖的潮湿星球。盛产珍贵的“造物主之息”（地嗪），曾是塔达林誓死守护的圣地，也是凯瑞甘为了强化虫群灵能而进行血腥掠夺的猎场。',
+                size: 8, gravity: '1.01 g', period: '22 hrs', atmo: 'Humid / Terrazine', pop: 'Unknown'
+            },
+            {
+                id: 'char',
+                name: '查尔 (Char)',
+                x: 750, y: 700,
+                faction: 'Zerg Swarm',
+                color: '#aa00ff',
+                status: '主巢',
+                desc: '异虫大本营。充满火山灰、岩浆河与酸性大气的地狱，地底布满无穷无尽的虫道；这里是刀锋女王的王座所在地，数次星际大战的核心战场，也是科普卢星区最危险的坐标。',
+                size: 13, gravity: '0.91 g', period: '52 hrs', atmo: 'Ash / Acid', pop: '>10 Billion (Zerg)'
+            },
+            {
+                id: 'zerus',
+                name: '泽鲁斯 (Zerus)',
+                x: 900, y: 800,
+                faction: 'Primal Zerg',
+                color: '#aa00ff',
+                status: '原始进化',
+                desc: '异虫发源地。原始、野性且充满敌意的丛林世界，这里的生物不属于主巢心智，只信奉“适者生存”；凯瑞甘曾在此投入原始分裂池，重生为拥有原始力量的刀锋女王。',
+                size: 12, gravity: '1.20 g', period: '25 hrs', atmo: 'Oxygen-Rich', pop: 'Uncountable (Primal)'
+            },
+            {
+                id: 'kaldir',
+                name: '卡尔迪尔 (Kaldir)',
+                x: 850, y: 600,
+                faction: 'Zerg Swarm',
+                color: '#aa00ff',
+                status: '极寒',
+                desc: '被冰封的极寒世界。拥有能瞬间冻结一切的“闪聚风暴”，凯瑞甘曾率军在此猎杀当地巨兽以获取抗寒基因，并消灭了驻扎于此的星灵远征军以掩盖虫群的行踪。',
+                size: 8, gravity: '1.05 g', period: '30 hrs', atmo: 'Thin / Nitrogen', pop: 'High (Zerg)'
+            },
+            {
+                id: 'chausara', name: '乔·萨拉 (Chau Sara)', x: 440, y: 640, faction: 'Destroyed', color: '#555555', status: '已净化', desc: '大战争的序幕。人类官方记录中首个被异虫完全吞噬的星球，随后被塔萨达尔率领的星灵舰队彻底“玻璃化”，标志着人类首次意识到外星威胁的恐怖。', size: 8, gravity: '1.00 g', period: '24 hrs', atmo: 'None / Vacuum', pop: '0 (Extinct)'
+            },
+            {
+                id: 'typhon', name: '泰丰 (Typhon)', x: 550, y: 580, faction: 'Unstable', color: '#ff2200', status: '即将毁灭', desc: '处于超新星爆发边缘的危险世界。恒星的剧烈活动周期性地产生火风暴烧毁地表，雷诺游骑兵曾在此进行了一场与时间赛跑的夺宝行动，随后该星系彻底湮灭。', size: 7, gravity: '0.90 g', period: '14 hrs', atmo: 'Superheated Plasma', pop: '0'
+            },
+            {
+                id: 'agria', name: '阿格瑞亚 (Agria)', x: 280, y: 380, faction: 'Neutral', color: '#44aa44', status: '农业殖民地', desc: '艾瑞尔·汉森博士的家园。一个以高科技农业为主的平静世界，但在异虫全面入侵时沦为屠宰场，是雷诺游骑兵介入难民救援行动的主要地点。', size: 10, gravity: '1.00 g', period: '26 hrs', atmo: 'N2, O2 (Agrarian)', pop: 'Evacuating'
+            },
+            {
+                id: 'meinhoff', name: '梅恩霍夫 (Meinhoff)', x: 320, y: 480, faction: 'Infested', color: '#663366', status: '生化危机', desc: '被异虫病毒吞噬的难民营。白昼看似正常，夜晚则会被从地底钻出的无数受感染人类淹没，雷诺曾在此目睹了人类被转化为行尸走肉的惨状。', size: 9, gravity: '0.98 g', period: '24 hrs', atmo: 'Contaminated', pop: '99% Infested'
+            },
+            {
+                id: 'xil', name: '席尔 (Xil)', x: 620, y: 450, faction: 'Moebius/Tal\'darim', color: '#ccaa00', status: '遗迹挖掘', desc: '萨尔那加神庙遗址。拥有一座巨大的古老神庙和危险的防御机制，塔达林曾在此死守，雷诺不得不征用巨大的“德拉肯”激光钻机强行攻破大门。', size: 11, gravity: '1.10 g', period: '28 hrs', atmo: 'Arid / Dusty', pop: 'Expeditionary'
+            },
+            {
+                id: 'castanar', name: '卡斯塔纳 (Castanar)', x: 360, y: 280, faction: 'Dominion (Secret)', color: '#333333', status: '机密设施', desc: '帝国的黑暗心脏。表面是普通的研究站，地下却隐藏着骇人听闻的混合体实验室；雷诺在此揭露了蒙斯克试图制造人造怪物的惊天丑闻。', size: 8, gravity: '1.00 g', period: '24 hrs', atmo: 'Controlled', pop: 'Classified'
+            },
+            {
+                id: 'avernus', name: '阿弗纳斯 (Avernus)', x: 390, y: 360, faction: 'Dominion', color: '#550000', status: '幽灵学院', desc: '幽灵特工的摇篮。设有高度设防的幽灵军校和战术核武器库，托什与雷诺曾突袭此地，彻底终结了“幽魂”计划并释放了被洗脑的特工。', size: 6, gravity: '0.95 g', period: '20 hrs', atmo: 'Urban / Military', pop: 'Academy Staff'
+            },
+            {
+                id: 'skygeirr', name: '斯盖格尔空间站 (Skygeirr)', x: 700, y: 650, faction: 'Hybrid / Moebius', color: '#444444', status: '混合体培育', desc: '这就不是星球，而是建立在巨大死星残骸上的超级实验室。纳鲁德博士在此培育终极混合体，斯图科夫在此复仇并将其彻底摧毁。', size: 5, gravity: 'Artificial', period: 'N/A', atmo: 'Life Support', pop: 'Moebius / Hybrid'
+            },
+            {
+                id: 'glacius', name: '格拉修斯 (Glacius)', x: 880, y: 550, faction: 'Protoss (Purifier)', color: '#00ccff', status: '已瓦解', desc: '被冰封的古代科技库。存放着被封印的净化者科技和原型机，阿塔尼斯在塔达林的轨道轰炸摧毁地表设施前一刻，惊险地抢救出了珍贵的数据。', size: 9, gravity: '1.05 g', period: '32 hrs', atmo: 'Freezing / Storms', pop: 'Sentinels'
+            },
+            {
+                id: 'phaeton', name: '法厄同 (Phaeton)', x: 780, y: 720, faction: 'Zerg Swarm', color: '#aa5500', status: '进化猎场', desc: '拥有独特生态的荒漠星球。这里的生物进化出了极强的再生能力，异虫曾在此猎杀当地物种，将这种基因同化到了蟑螂体内。', size: 10, gravity: '1.02 g', period: '26 hrs', atmo: 'Hot / Dry', pop: 'Feral Zerg'
+            },
+            {
+                id: 'cavir', name: '卡维尔 (Cavir)', x: 800, y: 750, faction: 'Zerg Swarm', color: '#00aa00', status: '生化实验', desc: '充满剧毒植物的丛林。是爆虫进化的关键地点，凯瑞甘在此让爆虫通过同化当地剧毒生物，获得了毁灭性的酸液强化。', size: 9, gravity: '1.00 g', period: '22 hrs', atmo: 'Toxic Spores', pop: 'Wild Zerg'
+            },
+            {
+                id: 'revanscar', name: '雷文斯卡 (Revanscar)', x: 680, y: 150, faction: 'Moebius Corps', color: '#222222', status: '最后防线', desc: '莫比斯军团的最后据点。阿塔尼斯与凯瑞甘曾联手攻击此地，摧毁了为埃蒙生产混合体的设施，终结了莫比斯军团的疯狂。', size: 8, gravity: '1.00 g', period: '24 hrs', atmo: 'Industrial / Dark', pop: 'Hostile'
+            }
+        ];
 
-    // --- 主星图 Canvas 设置 ---
-    const canvas = document.getElementById('starmap');
-    const ctx = canvas.getContext('2d');
-    const leftPanel = document.getElementById('left-panel');
-    const rightPanel = document.getElementById('right-panel');
-    const hintText = document.getElementById('hint-text');
+        // --- 主星图 Canvas 设置 ---
+        const canvas = document.getElementById('starmap');
+        const ctx = canvas.getContext('2d');
+        const leftPanel = document.getElementById('left-panel');
+        const rightPanel = document.getElementById('right-panel');
+        const hintText = document.getElementById('hint-text');
 
-    let width, height;
-    let camera = { x: 500, y: 500, zoom: 0.8 }; 
-    let targetCamera = { x: 500, y: 500, zoom: 0.8 };
-    let isDragging = false;
-    let dragStart = { x: 0, y: 0 };
-    let lastMouse = { x: 0, y: 0 };
-    let hoveredPlanet = null;
-    let selectedPlanet = null;
+        let width, height;
+        let camera = { x: 500, y: 500, zoom: 0.8 };
+        let targetCamera = { x: 500, y: 500, zoom: 0.8 };
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let lastMouse = { x: 0, y: 0 };
+        let hoveredPlanet = null;
+        let selectedPlanet = null;
 
-    // --- 星空背景粒子 ---
-    const stars = [];
-    const numStars = 400;
+        // --- 星空背景粒子 ---
+        const stars = [];
+        const numStars = 400;
 
-    function init() {
-        resize();
-        window.addEventListener('resize', resize);
-        
-        for(let i=0; i<numStars; i++) {
-            stars.push({
-                x: Math.random() * 2000 - 500,
-                y: Math.random() * 1500 - 250,
-                size: Math.random() * 2,
-                brightness: Math.random(),
-                flickerSpeed: Math.random() * 0.05
+        function init() {
+            resize();
+            window.addEventListener('resize', resize);
+
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * 2000 - 500,
+                    y: Math.random() * 1500 - 250,
+                    size: Math.random() * 2,
+                    brightness: Math.random(),
+                    flickerSpeed: Math.random() * 0.05
+                });
+            }
+
+            renderPlanetList();
+            requestAnimationFrame(animate);
+
+            canvas.addEventListener('mousedown', e => {
+                isDragging = true;
+                dragStart = { x: e.clientX, y: e.clientY };
+                lastMouse = { x: e.clientX, y: e.clientY };
+            });
+
+            window.addEventListener('mouseup', e => {
+                if (!isDragging) return;
+                isDragging = false;
+                const dist = Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y);
+                if (dist < 5) handleCanvasClick(e.clientX, e.clientY);
+            });
+
+            canvas.addEventListener('dblclick', e => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = (e.clientX - rect.left - width / 2) / camera.zoom + camera.x;
+                const mouseY = (e.clientY - rect.top - height / 2) / camera.zoom + camera.y;
+
+                let clickedPlanet = null;
+                for (let p of planets) {
+                    const hitSize = p.type === 'star' ? p.size + 25 : p.size + 15;
+                    const dist = Math.hypot(p.x - mouseX, p.y - mouseY);
+                    if (dist < hitSize) {
+                        clickedPlanet = p;
+                        break;
+                    }
+                }
+
+                if (clickedPlanet) {
+                    selectPlanet(clickedPlanet);
+                    targetCamera.zoom = 2.5;
+                } else {
+                    targetCamera.x = mouseX;
+                    targetCamera.y = mouseY;
+                    targetCamera.zoom = Math.min(targetCamera.zoom * 1.5, 4);
+                }
+            });
+
+            canvas.addEventListener('mousemove', e => {
+                if (isDragging) {
+                    const dx = (e.clientX - lastMouse.x) / camera.zoom;
+                    const dy = (e.clientY - lastMouse.y) / camera.zoom;
+                    targetCamera.x -= dx;
+                    targetCamera.y -= dy;
+                    lastMouse = { x: e.clientX, y: e.clientY };
+                }
+
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = (e.clientX - rect.left - width / 2) / camera.zoom + camera.x;
+                const mouseY = (e.clientY - rect.top - height / 2) / camera.zoom + camera.y;
+
+                document.getElementById('mouse-coords').innerText = `${mouseX.toFixed(2)}, ${mouseY.toFixed(2)}`;
+                checkHover(mouseX, mouseY);
+            });
+
+            canvas.addEventListener('wheel', e => {
+                e.preventDefault();
+                const zoomSpeed = 0.001;
+                targetCamera.zoom -= e.deltaY * zoomSpeed;
+                targetCamera.zoom = Math.min(Math.max(targetCamera.zoom, 0.4), 4);
+            });
+
+            deselectPlanet();
+        }
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        function renderPlanetList() {
+            const list = document.getElementById('planet-list-container');
+            list.innerHTML = '';
+            planets.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+
+                if (p.type === 'star') {
+                    item.classList.add('star-item');
+                    item.innerHTML = `<span>★ ${p.name}</span><span style="color:#ffcc00">[STAR]</span>`;
+                } else {
+                    let factionClass = 'color-neutral';
+                    if (p.faction.includes('Dominion')) factionClass = 'color-dominion';
+                    if (p.faction.includes('Zerg')) factionClass = 'color-zerg';
+                    if (p.faction.includes('Protoss')) factionClass = 'color-protoss';
+                    if (p.faction.includes('Kel-Morian')) factionClass = 'color-kelmorian';
+                    if (p.faction.includes('Umojan')) factionClass = 'color-umojan';
+
+                    item.innerHTML = `<span>${p.name.split('(')[0]}</span><span class="${factionClass}">[${p.faction.substring(0, 3).toUpperCase()}]</span>`;
+                }
+
+                item.onclick = (e) => {
+                    e.stopPropagation();
+                    selectPlanet(p);
+                };
+                item.id = `list-${p.id}`;
+                list.appendChild(item);
             });
         }
 
-        renderPlanetList();
-        requestAnimationFrame(animate);
-
-        canvas.addEventListener('mousedown', e => {
-            isDragging = true;
-            dragStart = { x: e.clientX, y: e.clientY };
-            lastMouse = { x: e.clientX, y: e.clientY };
-        });
-
-        window.addEventListener('mouseup', e => {
-            if (!isDragging) return;
-            isDragging = false;
-            const dist = Math.hypot(e.clientX - dragStart.x, e.clientY - dragStart.y);
-            if (dist < 5) handleCanvasClick(e.clientX, e.clientY);
-        });
-        
-        canvas.addEventListener('dblclick', e => {
+        function handleCanvasClick(clientX, clientY) {
             const rect = canvas.getBoundingClientRect();
-            const mouseX = (e.clientX - rect.left - width/2) / camera.zoom + camera.x;
-            const mouseY = (e.clientY - rect.top - height/2) / camera.zoom + camera.y;
+            const mouseX = (clientX - rect.left - width / 2) / camera.zoom + camera.x;
+            const mouseY = (clientY - rect.top - height / 2) / camera.zoom + camera.y;
 
             let clickedPlanet = null;
             for (let p of planets) {
@@ -768,349 +982,263 @@
 
             if (clickedPlanet) {
                 selectPlanet(clickedPlanet);
-                targetCamera.zoom = 2.5; 
             } else {
-                targetCamera.x = mouseX;
-                targetCamera.y = mouseY;
-                targetCamera.zoom = Math.min(targetCamera.zoom * 1.5, 4); 
+                deselectPlanet();
             }
-        });
+        }
 
-        canvas.addEventListener('mousemove', e => {
+        function selectPlanet(planet) {
+            selectedPlanet = planet;
+
+            leftPanel.classList.remove('hidden');
+            rightPanel.classList.remove('hidden');
+            hintText.classList.remove('visible');
+
+            targetCamera.x = planet.x;
+            targetCamera.y = planet.y;
+            targetCamera.zoom = planet.type === 'star' ? 1.2 : 1.8;
+
+            document.querySelectorAll('.list-item').forEach(el => el.classList.remove('active'));
+            const listItem = document.getElementById(`list-${planet.id}`);
+            if (listItem) {
+                listItem.classList.add('active');
+                listItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            document.getElementById('detail-name').innerText = planet.name;
+            // 使用 CSS 变量颜色，这里不再直接用 hex
+            document.getElementById('detail-name').style.color = 'var(--sc-text-main)';
+            document.getElementById('detail-name').style.textShadow = `0 0 10px ${planet.color}`;
+
+            document.getElementById('detail-faction').innerHTML = `<span class="faction-tag" style="border-color:${planet.color}; color:${planet.color}">${planet.faction}</span>`;
+            document.getElementById('detail-status').innerText = planet.status;
+            document.getElementById('detail-desc').innerText = planet.desc;
+
+            document.getElementById('detail-gravity').innerText = planet.gravity || 'Unknown';
+            document.getElementById('detail-period').innerText = planet.period || 'Unknown';
+            document.getElementById('detail-atmo').innerText = planet.atmo || 'Unknown';
+            document.getElementById('detail-population').innerText = planet.pop || 'Unknown';
+
+            wfColor = planet.color;
+        }
+
+        function deselectPlanet() {
+            selectedPlanet = null;
+            leftPanel.classList.add('hidden');
+            rightPanel.classList.add('hidden');
+            hintText.classList.add('visible');
+            document.querySelectorAll('.list-item').forEach(el => el.classList.remove('active'));
+
+            targetCamera.x = 550;
+            targetCamera.y = 450;
+            targetCamera.zoom = 0.7;
+        }
+
+        function checkHover(mx, my) {
+            hoveredPlanet = null;
+            canvas.style.cursor = 'default';
             if (isDragging) {
-                const dx = (e.clientX - lastMouse.x) / camera.zoom;
-                const dy = (e.clientY - lastMouse.y) / camera.zoom;
-                targetCamera.x -= dx;
-                targetCamera.y -= dy;
-                lastMouse = { x: e.clientX, y: e.clientY };
+                canvas.style.cursor = 'grabbing';
+                return;
             }
 
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = (e.clientX - rect.left - width/2) / camera.zoom + camera.x;
-            const mouseY = (e.clientY - rect.top - height/2) / camera.zoom + camera.y;
-            
-            document.getElementById('mouse-coords').innerText = `${mouseX.toFixed(2)}, ${mouseY.toFixed(2)}`;
-            checkHover(mouseX, mouseY);
-        });
-
-        canvas.addEventListener('wheel', e => {
-            e.preventDefault();
-            const zoomSpeed = 0.001;
-            targetCamera.zoom -= e.deltaY * zoomSpeed;
-            targetCamera.zoom = Math.min(Math.max(targetCamera.zoom, 0.4), 4);
-        });
-        
-        deselectPlanet(); 
-    }
-
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-
-    function renderPlanetList() {
-        const list = document.getElementById('planet-list-container');
-        list.innerHTML = '';
-        planets.forEach(p => {
-            const item = document.createElement('div');
-            item.className = 'list-item';
-            
-            if (p.type === 'star') {
-                item.classList.add('star-item');
-                item.innerHTML = `<span>★ ${p.name}</span><span style="color:#ffcc00">[STAR]</span>`;
-            } else {
-                let factionClass = 'color-neutral';
-                if(p.faction.includes('Dominion')) factionClass = 'color-dominion';
-                if(p.faction.includes('Zerg')) factionClass = 'color-zerg';
-                if(p.faction.includes('Protoss')) factionClass = 'color-protoss';
-                if(p.faction.includes('Kel-Morian')) factionClass = 'color-kelmorian';
-                if(p.faction.includes('Umojan')) factionClass = 'color-umojan';
-
-                item.innerHTML = `<span>${p.name.split('(')[0]}</span><span class="${factionClass}">[${p.faction.substring(0,3).toUpperCase()}]</span>`;
-            }
-
-            item.onclick = (e) => {
-                e.stopPropagation();
-                selectPlanet(p);
-            };
-            item.id = `list-${p.id}`;
-            list.appendChild(item);
-        });
-    }
-
-    function handleCanvasClick(clientX, clientY) {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = (clientX - rect.left - width/2) / camera.zoom + camera.x;
-        const mouseY = (clientY - rect.top - height/2) / camera.zoom + camera.y;
-
-        let clickedPlanet = null;
-        for (let p of planets) {
-            const hitSize = p.type === 'star' ? p.size + 25 : p.size + 15;
-            const dist = Math.hypot(p.x - mouseX, p.y - mouseY);
-            if (dist < hitSize) {
-                clickedPlanet = p;
-                break; 
-            }
-        }
-
-        if (clickedPlanet) {
-            selectPlanet(clickedPlanet);
-        } else {
-            deselectPlanet();
-        }
-    }
-
-    function selectPlanet(planet) {
-        selectedPlanet = planet;
-        
-        leftPanel.classList.remove('hidden');
-        rightPanel.classList.remove('hidden');
-        hintText.classList.remove('visible');
-        
-        targetCamera.x = planet.x;
-        targetCamera.y = planet.y;
-        targetCamera.zoom = planet.type === 'star' ? 1.2 : 1.8;
-
-        document.querySelectorAll('.list-item').forEach(el => el.classList.remove('active'));
-        const listItem = document.getElementById(`list-${planet.id}`);
-        if(listItem) {
-            listItem.classList.add('active');
-            listItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        document.getElementById('detail-name').innerText = planet.name;
-        // 使用 CSS 变量颜色，这里不再直接用 hex
-        document.getElementById('detail-name').style.color = 'var(--sc-text-main)';
-        document.getElementById('detail-name').style.textShadow = `0 0 10px ${planet.color}`;
-        
-        document.getElementById('detail-faction').innerHTML = `<span class="faction-tag" style="border-color:${planet.color}; color:${planet.color}">${planet.faction}</span>`;
-        document.getElementById('detail-status').innerText = planet.status;
-        document.getElementById('detail-desc').innerText = planet.desc;
-        
-        document.getElementById('detail-gravity').innerText = planet.gravity || 'Unknown';
-        document.getElementById('detail-period').innerText = planet.period || 'Unknown';
-        document.getElementById('detail-atmo').innerText = planet.atmo || 'Unknown';
-        document.getElementById('detail-population').innerText = planet.pop || 'Unknown';
-        
-        wfColor = planet.color;
-    }
-
-    function deselectPlanet() {
-        selectedPlanet = null;
-        leftPanel.classList.add('hidden');
-        rightPanel.classList.add('hidden');
-        hintText.classList.add('visible');
-        document.querySelectorAll('.list-item').forEach(el => el.classList.remove('active'));
-
-        targetCamera.x = 550;
-        targetCamera.y = 450;
-        targetCamera.zoom = 0.7;
-    }
-
-    function checkHover(mx, my) {
-        hoveredPlanet = null;
-        canvas.style.cursor = 'default';
-        if (isDragging) {
-            canvas.style.cursor = 'grabbing';
-            return;
-        }
-
-        for (let p of planets) {
-            const hitSize = p.type === 'star' ? p.size + 20 : p.size + 10;
-            const dist = Math.hypot(p.x - mx, p.y - my);
-            if (dist < hitSize) {
-                hoveredPlanet = p;
-                canvas.style.cursor = 'pointer';
-                break;
-            }
-        }
-    }
-
-    function animate() {
-        camera.x += (targetCamera.x - camera.x) * 0.08;
-        camera.y += (targetCamera.y - camera.y) * 0.08;
-        camera.zoom += (targetCamera.zoom - camera.zoom) * 0.08;
-
-        // 背景清理使用深空色
-        ctx.fillStyle = '#05080c'; 
-        ctx.fillRect(0, 0, width, height);
-
-        ctx.save();
-        ctx.translate(width/2, height/2);
-        ctx.scale(camera.zoom, camera.zoom);
-        ctx.translate(-camera.x * 0.5, -camera.y * 0.5); 
-        
-        // 网格线改为更暗淡的蓝色
-        ctx.strokeStyle = 'rgba(42, 61, 82, 0.3)';
-        ctx.lineWidth = 1;
-        const gridSize = 100;
-        
-        ctx.beginPath();
-        for(let x = -1000; x < 2000; x+=gridSize) {
-            ctx.moveTo(x, -1000); ctx.lineTo(x, 2000);
-        }
-        for(let y = -1000; y < 2000; y+=gridSize) {
-            ctx.moveTo(-1000, y); ctx.lineTo(2000, y);
-        }
-        ctx.stroke();
-        ctx.restore();
-
-        ctx.save();
-        ctx.translate(width/2, height/2);
-        ctx.translate(-camera.x * 0.2, -camera.y * 0.2); 
-        
-        stars.forEach(star => {
-            ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + Math.sin(Date.now() * star.flickerSpeed) * 0.5})`;
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-            ctx.fill();
-        });
-        ctx.restore();
-
-        ctx.save();
-        ctx.translate(width/2, height/2);
-        ctx.scale(camera.zoom, camera.zoom);
-        ctx.translate(-camera.x, -camera.y);
-
-        // 航路连接线改为淡青色
-        ctx.strokeStyle = 'rgba(0, 238, 255, 0.15)';
-        ctx.beginPath();
-        
-        ctx.moveTo(400, 400); ctx.lineTo(480, 460);
-        ctx.moveTo(400, 400); ctx.lineTo(250, 350);
-        ctx.moveTo(400, 400); ctx.lineTo(100, 200);
-        ctx.moveTo(300, 550); ctx.lineTo(150, 500);
-        ctx.moveTo(420, 620); ctx.lineTo(750, 700);
-        ctx.moveTo(800, 250); ctx.lineTo(860, 200);
-        ctx.moveTo(800, 250); ctx.lineTo(900, 300);
-        ctx.moveTo(750, 700); ctx.lineTo(900, 800);
-        ctx.moveTo(750, 700); ctx.lineTo(850, 600);
-        ctx.stroke();
-
-        // 渲染行星
-        planets.forEach(p => {
-            if(p === selectedPlanet) {
-                const ringSize = p.type === 'star' ? p.size * 1.5 : p.size * 2.5;
-                
-                // 选中圈改为金色和青色
-                ctx.strokeStyle = 'rgba(255, 204, 0, 0.6)';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, ringSize, 0, Math.PI * 2);
-                ctx.stroke();
-                
-                const time = Date.now() * 0.002;
-                ctx.strokeStyle = '#00eeff';
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, ringSize + 5, time, time + 1.5);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, ringSize + 5, time + Math.PI, time + Math.PI + 1.5);
-                ctx.stroke();
-            }
-
-            if (p.debris) {
-                ctx.fillStyle = p.color;
-                for(let i=0; i<5; i++) {
-                    ctx.fillRect(p.x + (Math.random()-0.5)*20, p.y + (Math.random()-0.5)*20, 2, 2);
+            for (let p of planets) {
+                const hitSize = p.type === 'star' ? p.size + 20 : p.size + 10;
+                const dist = Math.hypot(p.x - mx, p.y - my);
+                if (dist < hitSize) {
+                    hoveredPlanet = p;
+                    canvas.style.cursor = 'pointer';
+                    break;
                 }
-            } else {
-                const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
-                gradient.addColorStop(0, p.color);
-                gradient.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = gradient;
-                ctx.globalAlpha = 0.6;
+            }
+        }
+
+        function animate() {
+            camera.x += (targetCamera.x - camera.x) * 0.08;
+            camera.y += (targetCamera.y - camera.y) * 0.08;
+            camera.zoom += (targetCamera.zoom - camera.zoom) * 0.08;
+
+            // 背景清理使用深空色
+            ctx.fillStyle = '#05080c';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            ctx.scale(camera.zoom, camera.zoom);
+            ctx.translate(-camera.x * 0.5, -camera.y * 0.5);
+
+            // 网格线改为更暗淡的蓝色
+            ctx.strokeStyle = 'rgba(42, 61, 82, 0.3)';
+            ctx.lineWidth = 1;
+            const gridSize = 100;
+
+            ctx.beginPath();
+            for (let x = -1000; x < 2000; x += gridSize) {
+                ctx.moveTo(x, -1000); ctx.lineTo(x, 2000);
+            }
+            for (let y = -1000; y < 2000; y += gridSize) {
+                ctx.moveTo(-1000, y); ctx.lineTo(2000, y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            ctx.translate(-camera.x * 0.2, -camera.y * 0.2);
+
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + Math.sin(Date.now() * star.flickerSpeed) * 0.5})`;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.globalAlpha = 1.0;
+            });
+            ctx.restore();
 
-                ctx.fillStyle = '#000';
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.strokeStyle = p.color;
-                ctx.lineWidth = 2;
-                ctx.stroke();
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            ctx.scale(camera.zoom, camera.zoom);
+            ctx.translate(-camera.x, -camera.y);
+
+            // 航路连接线改为淡青色
+            ctx.strokeStyle = 'rgba(0, 238, 255, 0.15)';
+            ctx.beginPath();
+
+            ctx.moveTo(400, 400); ctx.lineTo(480, 460);
+            ctx.moveTo(400, 400); ctx.lineTo(250, 350);
+            ctx.moveTo(400, 400); ctx.lineTo(100, 200);
+            ctx.moveTo(300, 550); ctx.lineTo(150, 500);
+            ctx.moveTo(420, 620); ctx.lineTo(750, 700);
+            ctx.moveTo(800, 250); ctx.lineTo(860, 200);
+            ctx.moveTo(800, 250); ctx.lineTo(900, 300);
+            ctx.moveTo(750, 700); ctx.lineTo(900, 800);
+            ctx.moveTo(750, 700); ctx.lineTo(850, 600);
+            ctx.stroke();
+
+            // 渲染行星
+            planets.forEach(p => {
+                if (p === selectedPlanet) {
+                    const ringSize = p.type === 'star' ? p.size * 1.5 : p.size * 2.5;
+
+                    // 选中圈改为金色和青色
+                    ctx.strokeStyle = 'rgba(255, 204, 0, 0.6)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, ringSize, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    const time = Date.now() * 0.002;
+                    ctx.strokeStyle = '#00eeff';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, ringSize + 5, time, time + 1.5);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, ringSize + 5, time + Math.PI, time + Math.PI + 1.5);
+                    ctx.stroke();
+                }
+
+                if (p.debris) {
+                    ctx.fillStyle = p.color;
+                    for (let i = 0; i < 5; i++) {
+                        ctx.fillRect(p.x + (Math.random() - 0.5) * 20, p.y + (Math.random() - 0.5) * 20, 2, 2);
+                    }
+                } else {
+                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
+                    gradient.addColorStop(0, p.color);
+                    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = gradient;
+                    ctx.globalAlpha = 0.6;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1.0;
+
+                    ctx.fillStyle = '#000';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = p.color;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+
+                let showLabel = false;
+                let opacity = 1.0;
+
+                if (p === selectedPlanet || p === hoveredPlanet) {
+                    showLabel = true;
+                    opacity = 1.0;
+                } else {
+                    if (camera.zoom < 0.6) opacity = 0.5;
+                    showLabel = true;
+                }
+
+                if (showLabel) {
+                    ctx.fillStyle = (p === selectedPlanet || p === hoveredPlanet) ? '#fff' : `rgba(170, 204, 255,${opacity * 0.8})`;
+                    if (p.type === 'star') ctx.fillStyle = `rgba(255,204,0,${opacity})`;
+                    // 字体更改为 Orbitron
+                    ctx.font = '12px Orbitron';
+                    ctx.fillText(p.name.split('(')[0], p.x + p.size + 8, p.y + 4);
+                }
+            });
+
+            ctx.restore();
+
+            if (!rightPanel.classList.contains('hidden')) {
+                renderWireframe();
             }
 
-            let showLabel = false;
-            let opacity = 1.0;
-            
-            if (p === selectedPlanet || p === hoveredPlanet) {
-                showLabel = true;
-                opacity = 1.0;
-            } else {
-                if (camera.zoom < 0.6) opacity = 0.5;
-                showLabel = true; 
+            requestAnimationFrame(animate);
+        }
+
+        const wfCanvas = document.getElementById('wireframe-canvas');
+        const wfCtx = wfCanvas.getContext('2d');
+        let wfAngle = 0;
+        let wfColor = '#00eeff'; // 默认线框颜色
+
+        function renderWireframe() {
+            wfCanvas.width = wfCanvas.clientWidth;
+            wfCanvas.height = wfCanvas.clientHeight;
+            const cx = wfCanvas.width / 2;
+            const cy = wfCanvas.height / 2;
+            const radius = 60;
+
+            wfCtx.clearRect(0, 0, wfCanvas.width, wfCanvas.height);
+            wfCtx.strokeStyle = wfColor;
+            wfCtx.lineWidth = 1;
+            // 发光效果
+            wfCtx.shadowBlur = 5;
+            wfCtx.shadowColor = wfColor;
+
+            wfAngle += 0.01;
+
+            for (let i = 0; i < 8; i++) {
+                wfCtx.beginPath();
+                const lon = (i * Math.PI) / 4 + wfAngle;
+                wfCtx.ellipse(cx, cy, radius * Math.abs(Math.cos(lon)), radius, 0, 0, Math.PI * 2);
+                wfCtx.stroke();
             }
 
-            if (showLabel) {
-                ctx.fillStyle = (p === selectedPlanet || p === hoveredPlanet) ? '#fff' : `rgba(170, 204, 255,${opacity * 0.8})`;
-                if (p.type === 'star') ctx.fillStyle = `rgba(255,204,0,${opacity})`;
-                // 字体更改为 Orbitron
-                ctx.font = '12px Orbitron';
-                ctx.fillText(p.name.split('(')[0], p.x + p.size + 8, p.y + 4);
+            for (let i = 1; i < 6; i++) {
+                const lat = (i * Math.PI) / 6 - Math.PI / 2;
+                const r = radius * Math.cos(lat);
+                const y = cy + radius * Math.sin(lat);
+
+                wfCtx.beginPath();
+                wfCtx.moveTo(cx - r, y);
+                wfCtx.lineTo(cx + r, y);
+                wfCtx.stroke();
             }
-        });
 
-        ctx.restore();
-
-        if (!rightPanel.classList.contains('hidden')) {
-            renderWireframe();
+            // 扫描光效 - 蓝色
+            wfCtx.shadowBlur = 0;
+            wfCtx.fillStyle = 'rgba(0, 238, 255, 0.2)';
+            wfCtx.fillRect(0, (Date.now() % 2000) / 2000 * wfCanvas.height, wfCanvas.width, 3);
         }
 
-        requestAnimationFrame(animate);
-    }
+        init();
 
-    const wfCanvas = document.getElementById('wireframe-canvas');
-    const wfCtx = wfCanvas.getContext('2d');
-    let wfAngle = 0;
-    let wfColor = '#00eeff'; // 默认线框颜色
-
-    function renderWireframe() {
-        wfCanvas.width = wfCanvas.clientWidth;
-        wfCanvas.height = wfCanvas.clientHeight;
-        const cx = wfCanvas.width / 2;
-        const cy = wfCanvas.height / 2;
-        const radius = 60;
-
-        wfCtx.clearRect(0, 0, wfCanvas.width, wfCanvas.height);
-        wfCtx.strokeStyle = wfColor;
-        wfCtx.lineWidth = 1;
-        // 发光效果
-        wfCtx.shadowBlur = 5;
-        wfCtx.shadowColor = wfColor;
-
-        wfAngle += 0.01;
-
-        for (let i = 0; i < 8; i++) {
-            wfCtx.beginPath();
-            const lon = (i * Math.PI) / 4 + wfAngle;
-            wfCtx.ellipse(cx, cy, radius * Math.abs(Math.cos(lon)), radius, 0, 0, Math.PI * 2);
-            wfCtx.stroke();
-        }
-        
-        for (let i = 1; i < 6; i++) {
-            const lat = (i * Math.PI) / 6 - Math.PI/2;
-            const r = radius * Math.cos(lat);
-            const y = cy + radius * Math.sin(lat);
-            
-            wfCtx.beginPath();
-            wfCtx.moveTo(cx - r, y);
-            wfCtx.lineTo(cx + r, y);
-            wfCtx.stroke();
-        }
-        
-        // 扫描光效 - 蓝色
-        wfCtx.shadowBlur = 0;
-        wfCtx.fillStyle = 'rgba(0, 238, 255, 0.2)';
-        wfCtx.fillRect(0, (Date.now() % 2000) / 2000 * wfCanvas.height, wfCanvas.width, 3);
-    }
-
-    init();
-
-</script>
+    </script>
 </body>
+
 </html>
