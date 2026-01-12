@@ -497,6 +497,13 @@
             color: #cccccc !important;
             border-color: #cccccc !important;
         }
+
+        /* 搜索框特效 */
+        #planet-search:focus {
+            outline: none;
+            border-color: var(--sc-accent-blue);
+            box-shadow: 0 0 10px rgba(0, 238, 255, 0.2);
+        }
     </style>
 </head>
 
@@ -521,6 +528,10 @@
         <div class="left-panel terran-panel pointer-active" id="left-panel">
             <div class="panel-content-inner">
                 <div class="panel-header">Detected Signatures</div>
+                <div style="padding: 0 0 10px 0;">
+                    <input type="text" id="planet-search" placeholder="FILTER SIGNALS..."
+                        style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--sc-border); color: var(--sc-accent-blue); padding: 8px; font-family: 'Share Tech Mono', monospace; text-transform: uppercase; font-size: 12px; box-sizing: border-box;">
+                </div>
                 <div class="planet-list" id="planet-list-container"></div>
             </div>
         </div>
@@ -1176,6 +1187,21 @@
                 const zoomSpeed = 0.001;
                 targetCamera.zoom -= e.deltaY * zoomSpeed;
                 targetCamera.zoom = Math.min(Math.max(targetCamera.zoom, 0.4), 4);
+            });
+
+            // 搜索框实时过滤
+            document.getElementById('planet-search').addEventListener('input', function (e) {
+                const term = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.list-item');
+
+                items.forEach(item => {
+                    const text = item.innerText.toLowerCase();
+                    if (text.includes(term)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             });
 
             deselectPlanet();
